@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
@@ -15,6 +17,23 @@ from interview.inventory.serializers import (
     InventoryTagSerializer,
     InventoryTypeSerializer,
 )
+
+
+
+class InvetoryGetAfterDateView(APIView):
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
+
+    def get_after_date(self, date: str) -> Response:
+        try:
+            date = datetime.strptime(date, "%Y-%m-%d").date()
+            serializer = self.serializer_class(self.get_queryset().filter(created_at__gte=date), many=True)
+            return Response(serializer.data, status=200)
+        except ValueError as e:
+            raise ValueError(f"Invalid date format: {e}")
+        except Exception as e:
+            raise Exception(f"An error occurred: {e}")
+
 
 
 class InventoryListCreateView(APIView):
