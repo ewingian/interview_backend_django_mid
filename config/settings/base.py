@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "interview.core",
     "interview.inventory",
     "interview.order",
+    "profiles"
+
 ]
 
 MIDDLEWARE = [
