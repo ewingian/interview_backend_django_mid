@@ -23,6 +23,7 @@ class OrderSetInactiveView(APIView):
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_queryset(id=kwargs["id"])
+        # silly comment. I didn't look at the serializer.
         instance.is_active = False
         instance.save()
         serializer = self.get_serializer(instance)
